@@ -12,8 +12,12 @@ PASSWORD   = _account[1].strip()
 SERVER_ID  = os.environ.get("MINESTRATOR_SERVER_ID", "").strip()
 AUTH_TOKEN = os.environ.get("MINESTRATOR_AUTH", "").strip()
 
-_proxy = os.environ.get("GOST_PROXY", "").strip()
-LOCAL_PROXY = "http://127.0.0.1:8080" if _proxy else None
+# ============================================================
+# 代理配置修改：适配 Xray 代理端口 (10808) 
+# ============================================================
+# 优先读取 yml 中配置的 PROXY_URL，如果没有配置，则默认使用 Xray 的 10808 本地端口
+_proxy = os.environ.get("PROXY_URL", os.environ.get("HTTP_PROXY", "http://127.0.0.1:10808")).strip()
+LOCAL_PROXY = _proxy if _proxy else None
 
 _tg = os.environ.get("TG_BOT", "").strip()
 TG_CHAT_ID = _tg.split(",")[0].strip() if _tg else ""
